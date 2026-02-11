@@ -1,0 +1,11 @@
+audio/music/bg_music.mp3
+audio/sfx/hit.wav
+audio/sfx/jump.wav
+background/bg.png
+bird/bird.png
+cactus/cactus.png
+dino/jump.png
+dino/run_1.png
+dino/run_2.png
+dino/slide.png
+ground/ground.png
