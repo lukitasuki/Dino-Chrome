@@ -21,6 +21,7 @@ public class GameOverScreen implements Screen {
 
     private final DinoChromeGame game;
     private final int finalScore;
+    private final boolean iWon;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -29,9 +30,10 @@ public class GameOverScreen implements Screen {
     private Background background;
     private BitmapFont font;
 
-    public GameOverScreen(DinoChromeGame game, int finalScore) {
+    public GameOverScreen(DinoChromeGame game, int finalScore, boolean iWon) {
         this.game = game;
         this.finalScore = finalScore;
+        this.iWon = iWon;
     }
 
     @Override
@@ -46,21 +48,14 @@ public class GameOverScreen implements Screen {
         background = new Background(WORLD_WIDTH, WORLD_HEIGHT);
 
         font = new BitmapFont();
-        font.getData().setScale(2.2f);
+        font.getData().setScale(2.4f);
     }
 
     @Override
     public void render(float delta) {
 
-        // SPACE -> volver al lobby (no iniciar GameScreenMulti directo)
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-
             NetThread net = game.getNet();
-            if (net == null) {
-                System.out.println("[GAMEOVER] net == null. No inicializaste la red en DinoChromeGame.");
-                return;
-            }
-
             game.setScreen(new LobbyScreen(game, net));
             return;
         }
@@ -74,12 +69,14 @@ public class GameOverScreen implements Screen {
 
         background.render(batch);
 
+        String title = iWon ? "GANASTE EL JUEGO" : "PERDISTE EL JUEGO";
+
         font.draw(
                 batch,
-                "PERDISTE EL JUEGO\n\n" +
+                title + "\n\n" +
                         "SCORE: " + finalScore + "\n\n" +
                         "APRETA ESPACIO\nPARA VOLVER AL LOBBY",
-                170,
+                160,
                 360
         );
 

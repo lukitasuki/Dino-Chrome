@@ -139,9 +139,19 @@ public final class GameScreenMulti implements Screen {
     private void update(float delta) {
 
         // RESULT
-        NetThread.ResultInfo res = net.consumeResult();
-        if (res != null) {
-            game.setScreen(new GameOverScreen(game, scoreLocal.getScore()));
+        NetThread.ResultInfo result = net.consumeResult();
+        if (result != null) {
+
+            int myScore = scoreLocal.getScore();           // <-- ACÁ está el myScore
+            boolean iWon = (result.winner == net.getMyId());
+
+            // Opcional: manejar empate
+            if (result.winner == 0) {
+                // si querés pantalla de empate, podés usar iWon=false y cambiar texto en GameOver
+                iWon = false;
+            }
+
+            game.setScreen(new GameOverScreen(game, myScore, iWon));
             return;
         }
 
