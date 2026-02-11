@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.dinochrome.game.DinoChromeGame;
+import com.dinochrome.game.network.NetThread;
 import com.dinochrome.game.world.Background;
 
 public class MenuScreen implements Screen {
@@ -43,14 +44,23 @@ public class MenuScreen implements Screen {
         background = new Background(WORLD_WIDTH, WORLD_HEIGHT);
 
         font = new BitmapFont();
-        font.getData().setScale(3.2f, 3.2f); // GRANDE Y ANCHO
+        font.getData().setScale(3.2f, 3.2f);
     }
 
     @Override
     public void render(float delta) {
 
+        // SPACE -> ir al Lobby (NO al GameScreenMulti directo)
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game));
+
+            NetThread net = game.getNet();
+            if (net == null) {
+                System.out.println("[MENU] net == null. No inicializaste la red en DinoChromeGame.");
+                return;
+            }
+
+            game.setScreen(new LobbyScreen(game, net));
+            return;
         }
 
         background.update(delta, 50);
@@ -85,5 +95,6 @@ public class MenuScreen implements Screen {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        background.dispose();
     }
 }

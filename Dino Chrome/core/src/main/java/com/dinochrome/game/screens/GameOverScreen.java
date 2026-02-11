@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import com.dinochrome.game.DinoChromeGame;
+import com.dinochrome.game.network.NetThread;
 import com.dinochrome.game.world.Background;
 
 public class GameOverScreen implements Screen {
@@ -45,14 +46,23 @@ public class GameOverScreen implements Screen {
         background = new Background(WORLD_WIDTH, WORLD_HEIGHT);
 
         font = new BitmapFont();
-        font.getData().setScale(2.2f); // grande y legible
+        font.getData().setScale(2.2f);
     }
 
     @Override
     public void render(float delta) {
 
+        // SPACE -> volver al lobby (no iniciar GameScreenMulti directo)
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            game.setScreen(new GameScreen(game));
+
+            NetThread net = game.getNet();
+            if (net == null) {
+                System.out.println("[GAMEOVER] net == null. No inicializaste la red en DinoChromeGame.");
+                return;
+            }
+
+            game.setScreen(new LobbyScreen(game, net));
+            return;
         }
 
         background.update(delta, 40);
@@ -67,8 +77,8 @@ public class GameOverScreen implements Screen {
         font.draw(
                 batch,
                 "PERDISTE EL JUEGO\n\n" +
-                "SCORE: " + finalScore + "\n\n" +
-                "APRETA ESPACIO\nPARA VOLVER A JUGAR",
+                        "SCORE: " + finalScore + "\n\n" +
+                        "APRETA ESPACIO\nPARA VOLVER AL LOBBY",
                 170,
                 360
         );
@@ -89,5 +99,6 @@ public class GameOverScreen implements Screen {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        background.dispose();
     }
 }

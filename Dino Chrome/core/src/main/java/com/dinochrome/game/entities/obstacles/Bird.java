@@ -10,7 +10,7 @@ public class Bird extends Obstacle {
     private Texture texture;
 
     public Bird(float startX) {
-        super(startX, Ground.GROUND_HEIGHT + 60, SPEED);
+        super(startX, Ground.GROUND_HEIGHT + 40, SPEED);
 
         texture = new Texture("bird/bird.png");
         bounds.setSize(texture.getWidth(), texture.getHeight());
