@@ -28,9 +28,12 @@ public class DinoChromeGame extends Game {
         // =========================
         // Red
         // =========================
-        net = new NetThread("127.0.0.1", 4321);
+        net = new NetThread();
         net.start();
-        net.conectar("Juan");
+
+        // intenta encontrar server en LAN durante 3 segundos
+        net.discoverAndConnect("Luki", 4321, 3000);
+
 
         setScreen(new LobbyScreen(this, net));
     }
