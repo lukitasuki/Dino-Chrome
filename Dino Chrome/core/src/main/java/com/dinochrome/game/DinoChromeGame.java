@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.dinochrome.game.network.NetThread;
 import com.dinochrome.game.screens.LobbyScreen;
+import com.dinochrome.game.screens.MenuScreen;
 
 public class DinoChromeGame extends Game {
 
@@ -35,7 +36,7 @@ public class DinoChromeGame extends Game {
         net.discoverAndConnect("Luki", 4321, 3000);
 
 
-        setScreen(new LobbyScreen(this, net));
+        setScreen(new MenuScreen(this, net));
     }
 
     public Music getBackgroundMusic() {

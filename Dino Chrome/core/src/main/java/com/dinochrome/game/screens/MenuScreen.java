@@ -27,9 +27,11 @@ public class MenuScreen implements Screen {
 
     private Background background;
     private BitmapFont font;
+    private NetThread netThread;
 
-    public MenuScreen(DinoChromeGame game) {
+    public MenuScreen(DinoChromeGame game, NetThread netThread) {
         this.game = game;
+        this.netThread = netThread;
     }
 
     @Override
